@@ -8,75 +8,159 @@
 
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
             margin: 0;
             padding: 0;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
         }
 
         header {
-            background: #2c7be5;
-            color: white;
-            padding: 20px;
+            background: linear-gradient(135deg, #c31432, #240b36);
+            color: #fff;
+            padding: 30px 20px;
             text-align: center;
+            border-bottom: 4px solid gold;
+            position: relative;
+            z-index: 2;
+        }
+
+        header h1 {
+            font-size: 42px;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 18px;
+            opacity: 0.9;
         }
 
         section {
-            padding: 20px;
+            padding: 30px 20px;
             max-width: 800px;
             margin: auto;
+            position: relative;
+            z-index: 2;
         }
 
         .card {
-            background: white;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 25px;
             margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 18px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            border: 3px dashed #c31432;
         }
 
-        input,
+        .donation {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .donation .number {
+            font-size: 42px;
+            color: #240b36;
+            font-weight: bold;
+        }
+
+        .donation img {
+            width: 220px;
+            margin: 15px 0;
+            border: 6px solid gold;
+            border-radius: 16px;
+            background: #fff;
+            padding: 10px;
+        }
+
+        .donation .message {
+            font-size: 30px;
+            color: #c31432;
+        }
+
+        label {
+            font-weight: bold;
+            color: #240b36;
+        }
+
         select,
         button {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin-top: 8px;
             margin-bottom: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        select {
+            border: 2px solid #c31432;
         }
 
         button {
-            background: #2c7be5;
-            color: white;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: #fff;
             border: none;
             cursor: pointer;
-            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 30px;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         button:hover {
-            background: #1a5dc9;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
         footer {
             text-align: center;
-            padding: 15px;
-            background: #ddd;
+            padding: 18px;
+            background: #111;
+            color: #fff;
+            font-size: 14px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .divider {
+            text-align: center;
+            font-size: 24px;
+            margin: 15px 0;
         }
     </style>
 </head>
 
 <body>
+    <canvas id="snow"></canvas>
+
     <header>
         <h1>🎄 Online Caroling 🎶</h1>
-        <p>Spread Christmas, and Give me Money</p>
+        <p>Spread Christmas — kahit online</p>
     </header>
 
     <section>
         <div class="card">
-            <center>
-                <h2 style="font-size: 40px;">CASH G NO.</h2>
-                <h2 style="font-size: 40px;">09626473310</h2>
-                <h2 style="font-size: 40px;">Namamasko Po!!!</h2>
-            </center>
+
+            <div class="donation">
+                <h2>🎁 GCASH 🎁</h2>
+                <div class="number">09626473310</div>
+
+                <img src="qr_code.jpg" alt="GCash QR Code">
+
+                <div class="message">🎅 NAMAMASKO PO!!! 🎄</div>
+            </div>
+
+            <div class="divider">🎄 🎶 🎁 🎶 🎄</div>
 
             <form>
                 <label>Select a Song</label>
@@ -87,18 +171,18 @@
                     <option value="feliznavidad.m4a">Feliz Navidad</option>
                     <option value="wewishyouamerrychristmas.m4a">We Wish You a Merry Christmas</option>
                 </select>
-                
-                <button type="button" onclick="playSong()">▶ Play</button>
-                
-                <audio id="audioPlayer" controls preload="none" style="width:100%; margin-top:10px;"></audio>
+
+                <button type="button" onclick="playSong()">▶ Play Caroling</button>
+
+                <audio id="audioPlayer" controls preload="none" style="width:100%;"></audio>
             </form>
+
         </div>
     </section>
 
     <footer>
-        <p>Bago matapos ang taon, ang nais ko ay maka-ipon. 🎁</p>
+        <p>BAGO MATAPOS ANG TAON, ANG NAIS KO AY MAKA-IPON. 🎁✨</p>
     </footer>
-
 
     <script>
         function playSong() {
@@ -112,12 +196,66 @@
 
             audio.src = select.value;
             audio.load();
-
-            audio.play().catch(err => {
-                console.error("Playback failed:", err);
-                alert("Audio failed to play. Check file path or format.");
-            });
+            audio.play();
         }
+
+        const canvas = document.getElementById("snow");
+        const ctx = canvas.getContext("2d");
+
+        let width, height;
+        let snowflakes = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener("resize", resize);
+        resize();
+
+        function createSnowflakes() {
+            snowflakes = [];
+            for (let i = 0; i < 120; i++) {
+                snowflakes.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    r: Math.random() * 3 + 1,
+                    d: Math.random() + 1
+                });
+            }
+        }
+
+        function drawSnow() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = "white";
+            ctx.beginPath();
+            for (let flake of snowflakes) {
+                ctx.moveTo(flake.x, flake.y);
+                ctx.arc(flake.x, flake.y, flake.r, 0, Math.PI * 2);
+            }
+            ctx.fill();
+            moveSnow();
+        }
+
+        function moveSnow() {
+            for (let flake of snowflakes) {
+                flake.y += Math.pow(flake.d, 2) + 1;
+                flake.x += Math.sin(flake.y * 0.01);
+
+                if (flake.y > height) {
+                    flake.y = -10;
+                    flake.x = Math.random() * width;
+                }
+            }
+        }
+
+        function animateSnow() {
+            drawSnow();
+            requestAnimationFrame(animateSnow);
+        }
+
+        createSnowflakes();
+        animateSnow();
     </script>
 
 </body>
