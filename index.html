@@ -82,12 +82,12 @@
                 <label>Select a Song</label>
                 <select id="songSelect" onchange="playSong()" required>
                     <option value="">-- Choose a Song --</option>
-                    <option value="/starngpasko.aac">Star ng Pasko</option>
-                    <option value="/sanangayongpasko.aac">Sana Ngayong Pasko (Korean Version)</option>
-                    <option value="/feliznavidad.aac">Feliz Navidad</option>
-                    <option value="/wewishyouamerrychristmas.aac">We Wish You a Merry Christmas</option>
+                    <option value="starngpasko.m4a">Star ng Pasko</option>
+                    <option value="sanangayongpasko.m4a">Sana Ngayong Pasko (Korean Version)</option>
+                    <option value="feliznavidad.m4a">Feliz Navidad</option>
+                    <option value="wewishyouamerrychristmas.m4a">We Wish You a Merry Christmas</option>
                 </select>
-
+                
                 <audio id="audioPlayer" controls style="width:100%; margin-bottom:15px;">
                     Your browser does not support the audio element.
                 </audio>
@@ -105,9 +105,12 @@
             const select = document.getElementById("songSelect");
             const audio = document.getElementById("audioPlayer");
 
-            if (select.value !== "") {
+            if (select.value) {
                 audio.src = select.value;
-                audio.play();
+                audio.load();
+                audio.play().catch(err => {
+                    console.log("Playback error:", err);
+                });
             }
         }
     </script>
