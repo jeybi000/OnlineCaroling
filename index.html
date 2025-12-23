@@ -80,17 +80,17 @@
 
             <form>
                 <label>Select a Song</label>
-                <select id="songSelect" onchange="playSong()" required>
+                <select id="songSelect" required>
                     <option value="">-- Choose a Song --</option>
                     <option value="starngpasko.m4a">Star ng Pasko</option>
-                    <option value="sanangayongpasko.m4a">Sana Ngayong Pasko (Korean Version)</option>
+                    <option value="sanangayongpasko.m4a">Sana Ngayong Pasko</option>
                     <option value="feliznavidad.m4a">Feliz Navidad</option>
                     <option value="wewishyouamerrychristmas.m4a">We Wish You a Merry Christmas</option>
                 </select>
                 
-                <audio id="audioPlayer" controls style="width:100%; margin-bottom:15px;">
-                    Your browser does not support the audio element.
-                </audio>
+                <button type="button" onclick="playSong()">▶ Play</button>
+                
+                <audio id="audioPlayer" controls preload="none" style="width:100%; margin-top:10px;"></audio>
             </form>
         </div>
     </section>
@@ -105,13 +105,18 @@
             const select = document.getElementById("songSelect");
             const audio = document.getElementById("audioPlayer");
 
-            if (select.value) {
-                audio.src = select.value;
-                audio.load();
-                audio.play().catch(err => {
-                    console.log("Playback error:", err);
-                });
+            if (!select.value) {
+                alert("Please select a song first.");
+                return;
             }
+
+            audio.src = select.value;
+            audio.load();
+
+            audio.play().catch(err => {
+                console.error("Playback failed:", err);
+                alert("Audio failed to play. Check file path or format.");
+            });
         }
     </script>
 
