@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Caroling</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #2c7be5;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        section {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background: #2c7be5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #1a5dc9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>🎄 Online Caroling 🎶</h1>
+        <p>Spread Christmas, and Give me Money</p>
+    </header>
+
+    <section>
+        <div class="card">
+            <center>
+                <h2 style="font-size: 40px;">CASH G NO.</h2>
+                <h2 style="font-size: 40px;">09626473310</h2>
+                <h2 style="font-size: 40px;">Namamasko Po!!!</h2>
+            </center>
+
+            <form>
+                <label>Select a Song</label>
+                <select id="songSelect" onchange="playSong()" required>
+                    <option value="">-- Choose a Song --</option>
+                    <option value="/assets/starngpasko.aac">Star ng Pasko</option>
+                    <option value="/assets/starngpasko.aac">Sana Ngayong Pasko (Korean Version)</option>
+                    <option value="/assets/feliznavidad.aac">Feliz Navidad</option>
+                    <option value="/assets/wewishyouamerrychristmas.aac">We Wish You a Merry Christmas</option>
+                </select>
+
+                <audio id="audioPlayer" controls style="width:100%; margin-bottom:15px;">
+                    Your browser does not support the audio element.
+                </audio>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>Bago matapos ang taon, ang nais ko ay maka-ipon. 🎁</p>
+    </footer>
+
+
+    <script>
+        function playSong() {
+            const select = document.getElementById("songSelect");
+            const audio = document.getElementById("audioPlayer");
+
+            if (select.value !== "") {
+                audio.src = select.value;
+                audio.play();
+            }
+        }
+    </script>
+
+</body>
+
+</html>
